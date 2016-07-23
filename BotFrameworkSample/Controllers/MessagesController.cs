@@ -24,9 +24,12 @@ namespace BotFrameworkSample
             if (activity.Type == ActivityTypes.Message)
             {
                 ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-                Activity reply = activity.CreateReply();
-                reply.ChannelData = GetGenericTemplate();
-                await connector.Conversations.ReplyToActivityAsync(reply);
+                if (activity.ChannelId == "facebook")
+                {
+                    Activity reply = activity.CreateReply();
+                    reply.ChannelData = GetGenericTemplate();
+                    await connector.Conversations.ReplyToActivityAsync(reply);
+                }                
             }
             else
             {
