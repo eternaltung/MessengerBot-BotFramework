@@ -27,9 +27,13 @@ namespace BotFrameworkSample
                 if (activity.ChannelId == "facebook")
                 {
                     Activity reply = activity.CreateReply();
-                    reply.ChannelData = GetGenericTemplate();
+                    if (activity.Text == "template")
+                        reply.ChannelData = GetGenericTemplate();
+                    else
+                        reply.Text = $"echo: {activity.Text}";
+
                     await connector.Conversations.ReplyToActivityAsync(reply);
-                }                
+                }
             }
             else
             {
@@ -80,7 +84,7 @@ namespace BotFrameworkSample
                 }
             });
         }
-
+        
         private Activity HandleSystemMessage(Activity message)
         {
             if (message.Type == ActivityTypes.DeleteUserData)
